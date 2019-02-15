@@ -1,27 +1,22 @@
-from urllib import request
-import simplejson
-import urllib 
+import urllib
 import json
-#定义存储匹配路径的列表
-linkElems = []
+import numpy as np
 print('Gooling......')
- 
-#输入查找的关键词
-keyWord = input('Enter KEYWORD:')
-#拼接下载网页的路径
+
 def search(search_string):
-  query = urllib.parse.urlencode({'q': search_string})
-  url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % query
-  search_response = urllib.request.urlopen(url)
-  search_results = search_response.read().decode("utf8")
-  results = json.loads(search_results)
-  print (results)
-  data = results['responseData']
-  print('Total results: %s' % data['cursor']['estimatedResultCount'])
-  hits = data['results']
-  print('Top %d hits:' % len(hits))
-  for h in hits: print(' ', h['url'])
-  print('For more results, see %s' % data['cursor']['moreResultsUrl'])
-  return hits
-print (search(str(keyWord)))
+    query = urllib.parse.urlencode({'q': search_string})
+    cx = urllib.parse.urlencode({'cx': '016370974429777403833:vyjlpbhxzx8'})
+    num = urllib.parse.urlencode({'num': '10'})
+    key = urllib.parse.urlencode({'key': 'AIzaSyCP6K6SNhPmQKuhRTdkrWJ1Q0gReXLo4kM'})
+    url = 'https://www.googleapis.com/customsearch/v1?'+ query +'&'+ cx+'&' + num +'&' + key
+    
+    search_response = urllib.request.urlopen(url)
+    search_results = search_response.read().decode("utf8")
+    results = json.loads(search_results)
+    data = results['items']
+    
+    links = []
+    for i in range (10):
+        links.append(data[i]['link'])
+    return links
 
