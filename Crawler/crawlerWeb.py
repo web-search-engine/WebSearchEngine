@@ -1,9 +1,10 @@
 from flask import Flask, render_template,request,url_for,redirect
 import os
-import crawler
-import getTopResultTest
-import crawlerExecution
-curPath = os.path.join(os.getcwd())
+import crawler.crawler as crawler
+import getTopResult.getTopResultTest as getTopResultTest
+import crawler.crawlerExecution as crawlerExecution
+
+curPath = os.path.join(os.getcwd()) + "\\template"
 app = Flask(__name__,template_folder = curPath, static_folder = curPath+"\\css" )
 
 

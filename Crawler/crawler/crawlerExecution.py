@@ -1,5 +1,9 @@
 import heapq
-import htmlParse
+import sys
+sys.path.append("..")
+import htmlParse.htmlParse as htmlParse
+
+
 def crawlerExecution (crawl): 
 	cnt = 1
 	while cnt < crawl.MAX_VISITED_SIZE and crawl.urlQueue:
