@@ -1,7 +1,7 @@
 from flask import Flask, render_template,request,url_for,redirect
 import os
 import crawler.crawler as crawler
-import getTopResult.getTopResultTest as getTopResultTest
+import getTopResult.googleUrlLink as googleUrlLink
 import crawler.crawlerExecution as crawlerExecution
 
 curPath = os.path.join(os.getcwd()) + "\\template"
@@ -15,7 +15,7 @@ def index():
 	else:
 		keyWord = request.form["keyWords"]
 		N = request.form["Number"]
-		iniLinks = getTopResultTest.search(keyWord)
+		iniLinks = googleUrlLink.search(keyWord)
 		crawl = crawler.crawler(iniLinks, int(N))
 		crawlerExecution.crawlerExecution(crawl)
 
