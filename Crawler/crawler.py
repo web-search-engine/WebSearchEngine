@@ -6,13 +6,12 @@ import time
 # from bs4 import BeautifulSoup
 import collections
 import numpy as np
-import htmlParse
+
 
 class crawler(object):
 
 	def __init__(self,iniLinks,N):
 
-		INITIAL_LINK = iniLinks
 		self.MAX_VISITED_SIZE = N
 		# Used for recording link id
 		self.i = 0
@@ -30,6 +29,8 @@ class crawler(object):
 		self.outIdNum = collections.defaultdict(int)
 		# Maintain a priority queue to get highest score in all the links
 		self.urlQueue = []
+		# Stored visited valid links
+		self.visited = set()
 		# Stored visited invalid links
 		self.errorLink = set()
 		# Stored poped id
@@ -38,9 +39,9 @@ class crawler(object):
 		self.stack = []
 		# Set initial scores of first link
 		for link in iniLinks:
-			self.source[self.i] = self.i
 			heapq.heappush(self.urlQueue, (-1.0/N,self.i))
-			self.i += 1
+			self.sourceId = self.i
+			self.checkLinkValid(link)
 			
 
 	# Used for calculate scores of all links according to current link relationship
@@ -124,3 +125,4 @@ class crawler(object):
 		for j,val in enumerate(nex):
 			heapq.heappush(newUrlQueue,(-val[0], j))
 		self.urlQueue = newUrlQueue
+
