@@ -13,30 +13,41 @@ class crawler(object):
 	def __init__(self,iniLinks,N):
 
 		INITIAL_LINK = iniLinks
-		self.MAX_VISITED_SIZE = 	N
-
+		self.MAX_VISITED_SIZE = N
+		# Used for recording link id
 		self.i = 0
+		# Map link to link id
 		self.linkToId = {}
+		# Map id to link
 		self.idToLink = {}
+		# map id to HTML contents
 		self.idToHTML = {}
+		# record the source id when find next level links
 		self.sourceId = 0
-
+		# Used for recording link relationship(out & in)
 		self.linkGraph = {}
+		# Count out links in one page
 		self.outIdNum = collections.defaultdict(int)
+		# Maintain a priority queue to get highest score in all the links
 		self.urlQueue = []
+		# Stored visited valid links
 		self.visited = set([INITIAL_LINK])
+		# Stored visited invalid links
 		self.errorLink = set()
+		# Stored poped id
 		self.usedIdSet = set()
+		# Stored the order of all links according to scores of each link
 		self.stack = []
+		# Set initial scores of first link
 		heapq.heappush(self.urlQueue, (-1.0/N,self.i))
 
-
+	# Used for calculate scores of all links according to current link relationship
+	# Used iteration methods to get the convergence result
 	def pageRank(self,linkGraph,last):
 
 		threshold = 10**(-5)
 		n = last
 		pre = np.array([1.0/n for _ in range(n)]).reshape(n,1)
-		#print(pre)
 
 		A = [[0]*n for _ in range(n)]
 		A = np.matrix(A)
@@ -52,13 +63,11 @@ class crawler(object):
 		while True:
 			nex = T + np.dot(alpha*A,pre)
 			gap = np.sum(np.absolute(np.subtract(nex,pre)))
-			#print(gap)
 			if gap <= threshold:	
-				#print (gap)
 				break
 			pre = nex
 		return nex
-
+	# Check the link found is valid or not
 	def checkLinkValid(self,link):
 		try:
 			response = urllib.request.urlopen(link)
@@ -87,7 +96,8 @@ class crawler(object):
 		except Exception as e:
 			print ("Occurred error " + str(e))
 			return False
-
+	# If link is valid then update the linkgraph and related information
+	# Used pageRank algorithm get a new queue according to new graph relationships
 	def updateNextLinks(self, attrs):
 		for name, value in attrs:
 			if self.i < self.MAX_VISITED_SIZE:
@@ -112,22 +122,24 @@ class crawler(object):
 if __name__ == "__main__":
 	link = "https://baike.baidu.com/item/china/165190"
 	N = 30
+	# create a crawler object
 	crawl = crawler(link,N)
 	crawl.checkLinkValid(link)
 	cnt = 1
 	while cnt < N and crawl.urlQueue:
 		print (cnt)
-		# curPage = urlQueue.get()
 		_,sourceId = heapq.heappop(crawl.urlQueue)
+		# check the sourceId is used or not
+		# if used then continue pop until the first one that not used
 		while sourceId in crawl.usedIdSet and crawl.urlQueue:
 			_,sourceId = heapq.heappop(crawl.urlQueue)
-
+		# if the queue is empty and jump out of loops
 		if sourceId not in crawl.usedIdSet:
 			crawl.stack.append(crawl.idToLink[sourceId])
 			crawl.usedIdSet.add(sourceId)
 			curPage = crawl.idToHTML[sourceId]
 			crawl.sourceId = sourceId
-
+			# starting html parsing
 			my = htmlParse.MyParser()
 			my.feed(curPage)
 			

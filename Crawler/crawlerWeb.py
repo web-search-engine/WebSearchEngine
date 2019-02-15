@@ -15,7 +15,5 @@ def index():
 		print ("Search " + keyWord + " get " + N + " results!!!")
 		return redirect("/")
 
-
-
 if __name__ == '__main__':
     app.run(debug=True,host='localhost',port=8080)
