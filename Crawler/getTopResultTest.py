@@ -9,9 +9,15 @@ def search(search_string):
     num = urllib.parse.urlencode({'num': '10'})
     key = urllib.parse.urlencode({'key': 'AIzaSyCP6K6SNhPmQKuhRTdkrWJ1Q0gReXLo4kM'})
     url = 'https://www.googleapis.com/customsearch/v1?'+ query +'&'+ cx+'&' + num +'&' + key
-    
-    search_response = urllib.request.urlopen(url)
-    search_results = search_response.read().decode("utf8")
+    try:
+        search_response = urllib.request.urlopen(url)
+        try:
+            search_results = search_response.read().decode("utf8")
+        except Exception as e:
+            print ("error occurred" + str(e))
+    except Exception as e:
+        print("error occurred" + str(e))
+        
     results = json.loads(search_results)
     data = results['items']
     

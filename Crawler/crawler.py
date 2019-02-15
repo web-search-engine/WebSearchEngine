@@ -30,8 +30,6 @@ class crawler(object):
 		self.outIdNum = collections.defaultdict(int)
 		# Maintain a priority queue to get highest score in all the links
 		self.urlQueue = []
-		# Stored visited valid links
-		self.visited = set([INITIAL_LINK])
 		# Stored visited invalid links
 		self.errorLink = set()
 		# Stored poped id
@@ -39,7 +37,11 @@ class crawler(object):
 		# Stored the order of all links according to scores of each link
 		self.stack = []
 		# Set initial scores of first link
-		heapq.heappush(self.urlQueue, (-1.0/N,self.i))
+		for link in iniLinks:
+			self.source[self.i] = self.i
+			heapq.heappush(self.urlQueue, (-1.0/N,self.i))
+			self.i += 1
+			
 
 	# Used for calculate scores of all links according to current link relationship
 	# Used iteration methods to get the convergence result
@@ -103,13 +105,17 @@ class crawler(object):
 			if self.i < self.MAX_VISITED_SIZE:
             # 判断标签<a>的属性
 				if name == 'href':
-					if value and "/item/" == value[:6] and value not in self.visited and value not in self.errorLink:
-						status = self.checkLinkValid("https://baike.baidu.com" + value)
+					# if value and "/item/" == value[:6] and value not in self.visited and value not in self.errorLink:
+					# 	status = self.checkLinkValid("https://baike.baidu.com" + value)
+					if value and "http" == value[:4] and value not in self.visited and value not in self.errorLink:
+						status = self.checkLinkValid(value)
+
 						if status != False:	self.visited.add(value)	
 						else:	self.errorLink.add(value)
 			else:	
 				if value in self.visited:
-					idx = self.linkToId["https://baike.baidu.com" + value]
+					# idx = self.linkToId["https://baike.baidu.com" + value]
+					idx = self.linkToId[value]
 					self.linkGraph[idx,self.sourceId] = 1
 					self.outIdNum[self.sourceId] += 1
 
@@ -118,34 +124,3 @@ class crawler(object):
 		for j,val in enumerate(nex):
 			heapq.heappush(newUrlQueue,(-val[0], j))
 		self.urlQueue = newUrlQueue
-
-if __name__ == "__main__":
-	link = "https://baike.baidu.com/item/china/165190"
-	N = 30
-	# create a crawler object
-	crawl = crawler(link,N)
-	crawl.checkLinkValid(link)
-	cnt = 1
-	while cnt < N and crawl.urlQueue:
-		print (cnt)
-		_,sourceId = heapq.heappop(crawl.urlQueue)
-		# check the sourceId is used or not
-		# if used then continue pop until the first one that not used
-		while sourceId in crawl.usedIdSet and crawl.urlQueue:
-			_,sourceId = heapq.heappop(crawl.urlQueue)
-		# if the queue is empty and jump out of loops
-		if sourceId not in crawl.usedIdSet:
-			crawl.stack.append(crawl.idToLink[sourceId])
-			crawl.usedIdSet.add(sourceId)
-			curPage = crawl.idToHTML[sourceId]
-			crawl.sourceId = sourceId
-			# starting html parsing
-			my = htmlParse.MyParser()
-			my.feed(curPage)
-			
-			crawl.updateNextLinks(my.attrs)
-
-			cnt += 1
-	print(cnt, len(crawl.visited), crawl.i)
-	for url in crawl.stack:
-		print (url)

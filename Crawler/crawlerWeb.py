@@ -1,5 +1,7 @@
 from flask import Flask, render_template,request,url_for,redirect
 import os
+import crawler
+import getTopResultTest
 
 curPath = os.path.join(os.getcwd())
 app = Flask(__name__,template_folder = curPath, static_folder = curPath+"\\css" )
@@ -12,6 +14,9 @@ def index():
 	else:
 		keyWord = request.form["keyWords"]
 		N = request.form["Number"]
+		iniLinks = getTopResultTest.search(keyWord)
+		crawl = crawler.crawler(iniLinks, N)
+		
 		print ("Search " + keyWord + " get " + N + " results!!!")
 		return redirect("/")
 
