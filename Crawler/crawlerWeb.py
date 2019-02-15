@@ -4,8 +4,9 @@ import crawler.crawler as crawler
 import getTopResult.googleUrlLink as googleUrlLink
 import crawler.crawlerExecution as crawlerExecution
 
-curPath = os.path.join(os.getcwd()) + "\\template"
-app = Flask(__name__,template_folder = curPath, static_folder = curPath+"\\css" )
+curPath = os.path.join(os.getcwd())
+print(curPath)
+app = Flask(__name__,template_folder = curPath+"/template", static_folder = curPath+"/css" )
 
 
 @app.route("/", methods=['GET','POST'])
@@ -23,4 +24,4 @@ def index():
 		return redirect("/")
 
 if __name__ == '__main__':
-    app.run(debug=True,host='localhost',port=8080)
+    app.run(debug=True,host='localhost',port=8081)
