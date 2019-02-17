@@ -25,6 +25,12 @@ This is the first stage of the project.
 **3. Go into the src directory and run it**  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*python crawlerWeb.py*
 
+## Notice
+In the crawlerWeb.py file
+1. Mac user use 
+app = Flask(__name__,template_folder = curPath+"/template", static_folder = curPath+"/css" )
+2. Windows user use
+app = Flask(__name__,template_folder = curPath+"\\template", static_folder = curPath+"\\css" )
 
 ## Project Structure
 ```bash
