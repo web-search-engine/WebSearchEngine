@@ -6,7 +6,7 @@ import crawler.crawlerExecution as crawlerExecution
 
 curPath = os.path.join(os.getcwd())
 print(curPath)
-app = Flask(__name__,template_folder = curPath+"/template", static_folder = curPath+"/css" )
+app = Flask(__name__,template_folder = curPath+"\\template", static_folder = curPath+"\\css" )
 
 
 @app.route("/", methods=['GET','POST'])

@@ -6,6 +6,7 @@ import time
 # from bs4 import BeautifulSoup
 import collections
 import numpy as np
+import sys
 
 
 class crawler(object):
@@ -37,6 +38,8 @@ class crawler(object):
 		self.usedIdSet = set()
 		# Stored the order of all links according to scores of each link
 		self.stack = []
+		# Store size of page according to id
+		self.pageSize = {}
 		# Set initial scores of first link
 		for link in iniLinks:
 			heapq.heappush(self.urlQueue, (-1.0/N,self.i))
@@ -79,6 +82,7 @@ class crawler(object):
 				self.idToLink[self.i] = link
 				self.linkToId[link] = self.i
 				self.idToHTML[self.i] = str(result)	
+				self.pageSize[self.i] = float(sys.getsizeof(str(result))/1024) 
 				self.linkGraph[self.i,self.sourceId] = 1
 				self.outIdNum[self.sourceId] += 1
 				self.i += 1

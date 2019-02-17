@@ -1,12 +1,12 @@
 import urllib
 import json
 import numpy as np
-print('Gooling......')
+
 
 def search(search_string):
     query = urllib.parse.urlencode({'q': search_string})
     cx = urllib.parse.urlencode({'cx': '016370974429777403833:vyjlpbhxzx8'})
-    num = urllib.parse.urlencode({'num': '30'})
+    num = urllib.parse.urlencode({'num': '10'})
     key = urllib.parse.urlencode({'key': 'AIzaSyCP6K6SNhPmQKuhRTdkrWJ1Q0gReXLo4kM'})
     url = 'https://www.googleapis.com/customsearch/v1?'+ query +'&'+ cx+'&' + num +'&' + key
         
