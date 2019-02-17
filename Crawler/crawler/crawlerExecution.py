@@ -8,14 +8,14 @@ def crawlerExecution (crawl):
 	cnt = 1
 	while cnt < crawl.MAX_VISITED_SIZE and crawl.urlQueue:
 		print (cnt)
-		_,sourceId = heapq.heappop(crawl.urlQueue)
+		value,sourceId = heapq.heappop(crawl.urlQueue)
 		# check the sourceId is used or not
 		# if used then continue pop until the first one that not used
 		while sourceId in crawl.usedIdSet and crawl.urlQueue:
-			_,sourceId = heapq.heappop(crawl.urlQueue)
+			value,sourceId = heapq.heappop(crawl.urlQueue)
 		# if the queue is empty and jump out of loops
 		if sourceId not in crawl.usedIdSet:
-			crawl.stack.append(crawl.idToLink[sourceId])
+			crawl.stack.append((crawl.idToLink[sourceId],-value,crawl.pageSize[sourceId]))
 			crawl.visited.add(sourceId)
 			crawl.usedIdSet.add(sourceId)
 			curPage = crawl.idToHTML[sourceId]

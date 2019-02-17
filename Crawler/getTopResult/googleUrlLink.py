@@ -1,7 +1,7 @@
 import urllib
 import json
 import numpy as np
-print('Gooling......')
+
 
 def search(search_string):
     query = urllib.parse.urlencode({'q': search_string})
