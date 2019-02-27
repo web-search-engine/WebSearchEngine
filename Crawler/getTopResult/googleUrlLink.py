@@ -8,7 +8,7 @@ def search(search_string):
     cx = urllib.parse.urlencode({'cx': '016370974429777403833:vyjlpbhxzx8'})
     num = urllib.parse.urlencode({'num': '10'})
     key = urllib.parse.urlencode({'key': 'AIzaSyCP6K6SNhPmQKuhRTdkrWJ1Q0gReXLo4kM'})
-    url = 'https://www.googleapis.com/customsearch/v1?'+ query +'&'+ cx+'&' + num +'&' + key
+    url = 'https://www.googleapis.com/customsearch/v1?'+ query + '&' + cx + '&' + num +'&' + key
         
     search_response = urllib.request.urlopen(url)
     search_results = search_response.read().decode("utf8")
