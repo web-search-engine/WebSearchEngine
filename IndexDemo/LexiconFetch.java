@@ -1,5 +1,8 @@
+package IndexDemo;
+
 import java.io.*;
 import java.util.*;
+
 public class LexiconFetch{
 	public ArrayList<String> getLexicon(String path){
 		ArrayList<String> words = new ArrayList<>();
@@ -13,7 +16,7 @@ public class LexiconFetch{
 			while ((tempString = reader.readLine()) != null){
 				String word = tempString.split(" ")[1];
 				words.add(word);
-				System.out.println("-----> " + word);
+				// System.out.println("-----> " + word);
 			}
 		}
 		catch (IOException e){}

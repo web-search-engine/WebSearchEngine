@@ -1,7 +1,11 @@
+package IndexDemo;
+
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+// import IndexDemo.getLexicon;
+
 
 public class FilesRead{
 
@@ -99,7 +103,6 @@ public class FilesRead{
 		ArrayList<String> lexicon = words.getLexicon(path);
 
 
-		Directory dir = new Directory();
 		FilesFetch fetch = new FilesFetch();
 		ArrayList<String> filesLists = fetch.getFiles(FILE_DIRECTORY);
 		for (int i = 0; i < filesLists.size(); i++){
@@ -108,6 +111,8 @@ public class FilesRead{
 		int pageId = 0;
 		boolean status = false;
 		int dirId = 0;
+
+		Directory dir = new Directory();
 
 		while (dirId < filesLists.size()){
 			for (int i = 0; i < lexicon.size(); i++){

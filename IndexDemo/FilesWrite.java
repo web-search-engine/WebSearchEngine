@@ -1,6 +1,22 @@
+package IndexDemo;
+
 import java.io.*;
 import java.util.*;
 public class FilesWrite{
+
+	public void writeMergeFile(Map<Integer, Integer> freqTable, String path, String word){
+		for (Integer key: freqTable.keySet()){
+			try{
+				BufferedWriter write = new BufferedWriter(new FileWriter(path + "\\" + word + ".txt",true));
+				if (freqTable.get(key) != null) {
+					write.write(Integer.toString(key) + " " + Integer.toString(freqTable.get(key)));
+				}
+		        write.newLine();
+		        write.close();
+			}
+			catch (IOException e){}
+		}
+	}
 
 	public void writeDocTable(Map<Integer, String> pageToURL, String path, int dirId){
 		// int[] keys = new int[pageToURL.size()];
