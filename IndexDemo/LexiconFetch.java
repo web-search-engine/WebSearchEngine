@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.*;
 
 public class LexiconFetch{
-	public ArrayList<String> getLexicon(String path){
-		ArrayList<String> words = new ArrayList<>();
+	public Set<String> getLexicon(String path){
+		Set<String> words = new HashSet<>();
 		File file = new File(path);
 		BufferedReader reader = null;
 		try{

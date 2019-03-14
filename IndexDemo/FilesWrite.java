@@ -5,17 +5,17 @@ import java.util.*;
 public class FilesWrite{
 
 	public void writeMergeFile(Map<Integer, Integer> freqTable, String path, String word){
-		for (Integer key: freqTable.keySet()){
-			try{
-				BufferedWriter write = new BufferedWriter(new FileWriter(path + "\\" + word + ".txt",true));
+		try{
+			BufferedWriter write = new BufferedWriter(new FileWriter(path + "\\" + word + ".txt",true));
+			for (Integer key: freqTable.keySet()){
 				if (freqTable.get(key) != null) {
 					write.write(Integer.toString(key) + " " + Integer.toString(freqTable.get(key)));
+					write.newLine();
 				}
-		        write.newLine();
-		        write.close();
 			}
-			catch (IOException e){}
+			write.close();
 		}
+		catch (IOException e){}
 	}
 
 	public void writeDocTable(Map<Integer, String> pageToURL, String path, int dirId){
@@ -48,5 +48,19 @@ public class FilesWrite{
 			}
 			catch (IOException e){}
 		}
+	}
+
+	public void scoreFilesWrite(Map<String, Double> scores, String path,String word){
+		try{
+			BufferedWriter write = new BufferedWriter(new FileWriter(path + "\\" + word + ".txt",true));
+			for (String key: scores.keySet()){
+				if (scores.get(key) != null) {
+					write.write(key + " " + Double.toString(scores.get(key)));
+				}
+		    	write.newLine();
+			}
+			write.close();
+		}
+		catch (IOException e){}
 	}
 }

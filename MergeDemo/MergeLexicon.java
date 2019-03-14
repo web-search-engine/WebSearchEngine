@@ -8,44 +8,27 @@ public class MergeLexicon{
 	static String FILE_DIRECTORY = "D:\\wse_data_new";
 	static String FILE_MERGE_DIRECTORY = "D:\\wse_data_write";
 
-	public static Map<Integer, Integer> sortByValue(Map<Integer, Integer> freqTable){
-		List<Map.Entry<Integer, Integer> > list = 
-               new LinkedList<Map.Entry<Integer, Integer> >(freqTable.entrySet());
-
-        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer> >() { 
-            @Override 
-            public int compare(Map.Entry<Integer, Integer> o1,  
-                               Map.Entry<Integer, Integer> o2) 
-            	{ 
-                return o2.getValue().compareTo(o1.getValue());
-            } 
-        }); 
-
-        Map<Integer, Integer> temp = new LinkedHashMap<Integer, Integer>(); 
-        for (Map.Entry<Integer, Integer> aa : list) { 
-            temp.put(aa.getKey(), aa.getValue()); 
-        } 
-        return temp;
-	}
-
 	public static void main(String[] args){
-		String path = FILE_DIRECTORY + "\\lexicon.txt";
+		String path = "D:\\lexicon.txt";
 		LexiconFetch words = new LexiconFetch();
-		ArrayList<String> lexicon = words.getLexicon(path);
+		Set<String> lexicon = words.getLexicon(path);
 
-		Directory dir = new Directory();
+		// Directory dir = new Directory();
 		String dirPath = "D:\\wse_data_merge";
-		dir.makeDirectory(dirPath);
+		// dir.makeDirectory(dirPath);
 
 		FilesFetch fetch = new FilesFetch();
 		ArrayList<String> filesLists = fetch.getFiles(FILE_MERGE_DIRECTORY);
-		for (int k = 0; k < 1; k++){
-			System.out.println("word is " + lexicon.get(k));
+
+		int k = 0;
+
+		for (Iterator it= lexicon.iterator(); it.hasNext();){
+			String word = it.next().toString();
 			Map<Integer,Integer> freqTable = new HashMap<>();
 			for (int i = 0; i < filesLists.size(); i++){
 				System.out.println("---> Starting looking for files");
 				File file = null;
-				String filePath = FILE_MERGE_DIRECTORY + "\\" + Integer.toString(i) + "\\" + Integer.toString(i) + "\\" + lexicon.get(k)+".txt";
+				String filePath = FILE_MERGE_DIRECTORY + "\\" + Integer.toString(i) + "\\" + Integer.toString(i) + "\\" + word+".txt";
 				System.out.println("file path is " + filePath);
 				try {
 					file = new File(filePath);
@@ -58,7 +41,7 @@ public class MergeLexicon{
 								String[] lines = tempString.split(" ");
 								int pageId =  Integer.parseInt(lines[0]);
 								int freq =  Integer.parseInt(lines[1]);
-								freqTable.put(pageId, freq);
+								freqTable.put(pageId, freqTable.getOrDefault(pageId,0) + freq);
 							}
 						}
 						catch (Exception e){}
@@ -75,17 +58,15 @@ public class MergeLexicon{
 					file = null;
 				}
 			}
-			Map<Integer, Integer> sortFreqTable = sortByValue(freqTable);
 
 			FilesWrite write = new FilesWrite();
-			System.out.println("Map size is " + Integer.toString(sortFreqTable.size()));
-			System.out.println("Staring wrting");
-			write.writeMergeFile(sortFreqTable, dirPath, lexicon.get(k));
+			System.out.println("Map size is " + Integer.toString(freqTable.size()));
+			System.out.println("word is " + word);
+			System.out.println("word " + Integer.toString(k) + " Staring wrting");
+			write.writeMergeFile(freqTable, dirPath, word);
 			System.out.println("Finishing wrting");
+			k++;
 		}
 
-		// for (int i = 0; i < lexicon.size(); i++){
-		// 	System.out.println("---> word is " + lexicon.get(i));
-		// }
 	}
 }
