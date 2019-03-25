@@ -9,6 +9,7 @@ public class MergeLexicon{
 	static String FILE_MERGE_DIRECTORY = "D:\\wse_data_write";
 
 	public static void main(String[] args){
+
 		String path = "D:\\lexicon.txt";
 		LexiconFetch words = new LexiconFetch();
 		Set<String> lexicon = words.getLexicon(path);

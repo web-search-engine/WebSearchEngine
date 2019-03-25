@@ -50,7 +50,7 @@ public class FilesWrite{
 		}
 	}
 
-	public void scoreFilesWrite(Map<String, Double> scores, String path,String word){
+	public void scoreFilesWrite(Map<String, Double> scores, String path, String word){
 		try{
 			BufferedWriter write = new BufferedWriter(new FileWriter(path + "\\" + word + ".txt",true));
 			for (String key: scores.keySet()){
