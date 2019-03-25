@@ -5,7 +5,7 @@ This project implements a Web Search Engine.
 
 It is develops in 3 steps:
 - [x] Build a web links crawler
-- [ ] Build index for web links
+- [x] Build index for web links
 - [ ] Develop query algorithm
 
 ## Steps
